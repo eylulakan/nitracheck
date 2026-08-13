@@ -196,7 +196,7 @@ function startFirebase() {
   try {
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
-    const readingsRef = ref(db, "readings");
+    const readingsRef = ref(db, "measurements");
 
     onValue(readingsRef, snapshot => {
       const value = snapshot.val() || {};

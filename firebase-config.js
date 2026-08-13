@@ -7,11 +7,11 @@
   with Firebase Security Rules / Authentication before production use.
 */
 export const firebaseConfig = {
-  apiKey: "BURAYA_FIREBASE_API_KEY",
-  authDomain: "BURAYA_FIREBASE_AUTH_DOMAIN",
-  databaseURL: "https://BURAYA-DATABASE-URL.firebasedatabase.app",
-  projectId: "BURAYA_FIREBASE_PROJECT_ID",
-  storageBucket: "BURAYA_FIREBASE_STORAGE_BUCKET",
-  messagingSenderId: "BURAYA_FIREBASE_MESSAGING_SENDER_ID",
-  appId: "BURAYA_FIREBASE_APP_ID"
+  apiKey: "AIzaSyAfZZcGEfo1B_AJH0wFbaAbmPEqiigj8oA",
+  authDomain: "nitracheck.firebaseapp.com",
+  databaseURL: "https://nitracheck-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "nitracheck",
+  storageBucket: "nitracheck.firebasestorage.app",
+  messagingSenderId: "780338198602",
+  appId: "1:780338198602:web:cc5e1db76c32e1a9caceb3"
 };
