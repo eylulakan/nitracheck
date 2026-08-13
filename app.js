@@ -65,14 +65,18 @@ function stringFrom(obj, keys, fallback = "—") {
 }
 
 function normalizeReading(raw, id = "") {
-  const lat = numberFrom(raw, ["latitude", "lat", "gpsLat", "GPS_LAT", "konumLat"]);
-  const lng = numberFrom(raw, ["longitude", "lng", "lon", "gpsLng", "GPS_LNG", "konumLng"]);
-  const ppm = numberFrom(raw, ["ppm", "nitrate", "nitratePpm", "NO3", "no3", "nitrat", "nitratPpm"]);
+  // location/nitrate may be flat on raw, or nested under raw.location / raw.nitrate
+  const loc = (raw?.location && typeof raw.location === "object") ? raw.location : raw;
+  const nit = (raw?.nitrate && typeof raw.nitrate === "object") ? raw.nitrate : raw;
+
+  const lat = numberFrom(loc, ["latitude", "lat", "gpsLat", "GPS_LAT", "konumLat"]);
+  const lng = numberFrom(loc, ["longitude", "lng", "lon", "gpsLng", "GPS_LNG", "konumLng"]);
+  const ppm = numberFrom(nit, ["ppm", "nitrate", "nitratePpm", "NO3", "no3", "nitrat", "nitratPpm"]);
   if (lat === null || lng === null || ppm === null) return null;
   if (Math.abs(lat) > 90 || Math.abs(lng) > 180) return null;
 
   const device = stringFrom(raw, ["deviceId", "deviceID", "device", "cihazId", "id"], id || "NITRACHECK");
-  const city = stringFrom(raw, ["city", "il", "locationName", "location"], "—");
+  const city = stringFrom(raw, ["city", "il", "locationName", "address"], "—");
   const timestamp = raw.timestamp ?? raw.time ?? raw.createdAt ?? raw.tarih ?? Date.now();
   const score = numberFrom(raw, ["ndsc8", "NDSC8", "ndscScore", "score"]);
   const opticalQuality = stringFrom(raw, ["opticalQuality", "quality", "optikKalite"], "—");
