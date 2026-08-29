@@ -71,6 +71,7 @@ h1,h2,h3{font-family:var(--display)}
   display:grid;grid-template-columns:1.35fr .65fr;gap:40px;align-items:end;
   padding:clamp(40px,7vw,88px) 0 40px;
 }
+.hero-logo{display:block;width:min(360px,80%);height:auto;margin-bottom:24px}
 .team-pill{
   display:inline-flex;align-items:center;gap:10px;padding:6px 14px 6px 6px;border:1px solid var(--line);
   border-radius:999px;background:var(--panel);margin-bottom:22px
