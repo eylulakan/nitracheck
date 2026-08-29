@@ -28,6 +28,16 @@ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   attribution: '&copy; OpenStreetMap contributors'
 }).addTo(map);
 
+// Aynı/çok yakın koordinatlardaki (ör. tek bir test noktasında art arda
+// alınan ölçümler) marker'lar üst üste binip birbirini gizlemesin diye
+// kümeleme (clustering) katmanı kullanılıyor. Yakınlaşınca otomatik açılır.
+const clusterGroup = L.markerClusterGroup({
+  maxClusterRadius: 40,
+  spiderfyOnMaxZoom: true,
+  showCoverageOnHover: false
+});
+map.addLayer(clusterGroup);
+
 const markers = new Map();
 let allMeasurements = [];
 
@@ -130,15 +140,10 @@ function updateMarker(r) {
     popupAnchor: [0, -8]
   });
 
-  const existing = markers.get(r.id);
-  if (existing) {
-    existing.setLatLng([r.lat, r.lng]).setIcon(icon).setPopupContent(popupHtml(r));
-  } else {
-    const marker = L.marker([r.lat, r.lng], { icon })
-      .bindPopup(popupHtml(r), { maxWidth: 320 })
-      .addTo(map);
-    markers.set(r.id, marker);
-  }
+  const marker = L.marker([r.lat, r.lng], { icon })
+    .bindPopup(popupHtml(r), { maxWidth: 320 });
+  clusterGroup.addLayer(marker);
+  markers.set(r.id, marker);
 }
 
 function render(readings) {
@@ -154,13 +159,10 @@ function render(readings) {
   els.highCount.textContent = high;
   els.mapStatus.textContent = `${allMeasurements.length} ölçüm noktası`;
 
-  const liveIds = new Set(allMeasurements.map(r => r.id));
-  for (const [id, marker] of markers) {
-    if (!liveIds.has(id)) {
-      map.removeLayer(marker);
-      markers.delete(id);
-    }
-  }
+  // Basitlik ve güvenilirlik için her güncellemede kümeleme katmanı
+  // tamamen sıfırlanıp mevcut ölçümlerle yeniden kuruluyor.
+  clusterGroup.clearLayers();
+  markers.clear();
   allMeasurements.forEach(updateMarker);
 
   const latest = allMeasurements[0];
