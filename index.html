@@ -4,10 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#071014">
-  <meta name="description" content="NitraCheck Türkiye Nitrat İzleme ve Ölçüm Platformu">
-  <title>NitraCheck Türkiye | Nitrat İzleme Haritası</title>
+  <meta name="description" content="NitraCheck — Su Senatörleri (TEKNOFEST) tarafından geliştirilen, NDSC-8 özgün optik analiz algoritmasıyla çalışan yerli ve milli taşınabilir nitrat ölçüm sistemi ve canlı izleme haritası.">
+  <title>NitraCheck | Su Senatörleri — TEKNOFEST Nitrat İzleme Platformu</title>
+  <link rel="icon" href="assets/favicon.png">
 
   <link rel="preconnect" href="https://unpkg.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
         crossorigin="">
@@ -15,18 +17,25 @@
 </head>
 <body>
   <header class="topbar">
-    <a class="brand" href="#harita" aria-label="NitraCheck ana sayfa">
-      <span class="brand-mark">N</span>
+    <a class="brand" href="#top" aria-label="NitraCheck ana sayfa">
+      <span class="brand-mark"><img src="assets/nitracheck-dropicon.png" alt=""></span>
       <span>
         <strong>NITRA<span>CHECK</span></strong>
-        <small>TÜRKİYE NİTRAT İZLEME PLATFORMU</small>
+        <small>SU SENATÖRLERİ · TEKNOFEST</small>
       </span>
     </a>
 
+    <div class="partner-strip" aria-label="Destekleyen kurum ve yarışma logoları">
+      <img class="tt-badge" src="assets/tt-logo.png" alt="Türkiye Teknoloji Takımı">
+      <img src="assets/teknofest-logo.png" alt="TEKNOFEST">
+    </div>
+
     <nav class="nav" aria-label="Ana menü">
       <a class="active" href="#harita">Harita</a>
-      <a href="#hesaplama">Hesaplama</a>
-      <a href="#sistem">Sistem</a>
+      <a href="#ozgunluk">Özgünlük</a>
+      <a href="#hesaplama">Ölçüm</a>
+      <a href="#donanim">Donanım</a>
+      <a href="#ekip">Ekip</a>
     </nav>
 
     <div class="live-pill">
@@ -35,21 +44,44 @@
     </div>
   </header>
 
-  <main>
+  <main id="top">
     <section class="hero">
       <div>
+        <span class="team-pill">
+          <img src="assets/su-senatorleri-badge.png" alt="Su Senatörleri — TEKNOFEST Takımı">
+          <span>NDSC-8 ÖZGÜN NİTRAT ANALİZ ALGORİTMASI</span>
+        </span>
         <p class="eyebrow">CANLI ÇEVRESEL İZLEME</p>
-        <h1>Türkiye'nin nitrat haritası.</h1>
+        <h1>Türkiye'nin <em>nitrat</em> haritası.</h1>
         <p class="hero-copy">
-          NitraCheck cihazlarından gelen ölçümler GPS konumlarıyla harita üzerinde
-          renkli noktalar olarak gösterilir. Bir noktaya dokunarak ölçüm ayrıntılarını inceleyin.
+          Doğayı dinleyen, geleceği koruyan yerli spektral teknoloji: NitraCheck cihazlarından
+          gelen ölçümler GPS konumlarıyla saha şartlarında, laboratuvar hassasiyetinde
+          haritaya işlenir. Bir noktaya dokunarak ölçüm ayrıntılarını inceleyin.
         </p>
+
+        <div class="hero-stats">
+          <div><b id="totalCount">0</b><span>ÖLÇÜM</span></div>
+          <div><b id="safeCount">0</b><span>GÜVENLİ</span></div>
+          <div><b id="highCount">0</b><span>YÜKSEK</span></div>
+        </div>
       </div>
 
-      <div class="hero-stats">
-        <div><b id="totalCount">0</b><span>ÖLÇÜM</span></div>
-        <div><b id="safeCount">0</b><span>GÜVENLİ</span></div>
-        <div><b id="highCount">0</b><span>YÜKSEK</span></div>
+      <div class="spectral" aria-hidden="true">
+        <div class="spectral-head">
+          <b>AS7341 · 8 KANAL SPEKTRAL YANIT</b>
+          <span>NDSC-8</span>
+        </div>
+        <div class="spectral-bars">
+          <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+        </div>
+        <div class="spectral-labels">
+          <span>415</span><span>445</span><span>480</span><span>515</span>
+          <span>555</span><span>590</span><span>630</span><span>680nm</span>
+        </div>
+        <p class="spectral-foot">
+          Işığın optik parmak izi: 525 nm yeşil ve 630 nm kırmızı çift uyarımla toplanan
+          8 kanallı yanıt, dark/blank düzeltmesinden geçirilip özgün NDSC-8 skoruna dönüştürülür.
+        </p>
       </div>
     </section>
 
@@ -93,6 +125,49 @@
       </div>
     </section>
 
+    <section id="ozgunluk" class="content-section">
+      <p class="eyebrow">ÖZGÜNLÜK VE İNOVASYON</p>
+      <h2>Bir sayı üretmiyoruz, güvenilir bir yargı üretiyoruz.</h2>
+      <p class="section-copy">
+        NitraCheck'i prototipten ayıran şey donanımı kadar, üstüne kurduğumuz özgün karar
+        katmanları. Her ölçüm; optik doğrulama, konum mühürleme ve güç kararlılığından geçtikten
+        sonra haritaya düşer.
+      </p>
+
+      <div class="feature-grid">
+        <article>
+          <div class="ico">01</div>
+          <h3>NDSC-8 Optik Analiz Katmanı</h3>
+          <p>AS7341'den gelen yüksek çözünürlüklü veriler ezbere bir değere değil; dark referans, blank referans ve absorbans dönüşümünden geçen özgün NDSC-8 nitrat skoruna dönüştürülür.</p>
+        </article>
+        <article>
+          <div class="ico">02</div>
+          <h3>Çift Optik Uyarım</h3>
+          <p>Tek bir ışık kaynağına bağımlı kalmadan, 525 nm ve 630 nm ardışık uyarımla numunenin farklı dalga boylarındaki spektral yanıtı karşılaştırmalı olarak analiz edilir.</p>
+        </article>
+        <article>
+          <div class="ico">03</div>
+          <h3>Konumsal Sağlık Verisi</h3>
+          <p>Güvenilir bulunan her ölçüm cihaz hafızasına kaydedilir, GPS ile mühürlenir ve Firebase üzerinden Türkiye'nin su kalitesi risk haritasına yapılandırılmış veri olarak işlenir.</p>
+        </article>
+        <article>
+          <div class="ico">04</div>
+          <h3>Çevresel Etki İzleme</h3>
+          <p>SHT40 sadece ekrana sıcaklık/nem yazdırmaz; ortam koşullarının ölçüm kalitesi üzerindeki etkisini izleyen bir kalite değerlendirme katmanı olarak çalışır.</p>
+        </article>
+        <article>
+          <div class="ico">05</div>
+          <h3>Ölçüm Güven Skoru</h3>
+          <p>Optik doygunluk, sinyal yeterliliği ve kalibrasyon sınırları değerlendirilir. Riskli durumlarda sahte bir "0" değeri yerine ölçüm "Geçersiz" sayılarak güvenlik sağlanır.</p>
+        </article>
+        <article>
+          <div class="ico">06</div>
+          <h3>Çökmeyen İzole Güç Mimarisi</h3>
+          <p>Katmanlı güç izolasyonu, karmaşık algoritmik süreçlerin ve termal yazıcı gibi mekanik yüklerin sahada cihazı kilitlemeden çalışmasını garanti eder.</p>
+        </article>
+      </div>
+    </section>
+
     <section id="hesaplama" class="content-section">
       <p class="eyebrow">ÖLÇÜM ZİNCİRİ</p>
       <h2>Ham sensörden NO₃⁻ sonucuna</h2>
@@ -112,6 +187,62 @@
       </div>
     </section>
 
+    <section id="donanim" class="content-section">
+      <p class="eyebrow">ENDÜSTRİYEL DONANIM GÜCÜ</p>
+      <h2>Prototipten sahaya hazır ürüne.</h2>
+      <p class="section-copy">
+        Projeyi prototip aşamasından çıkarıp sahaya inmeye hazır bir ürün formuna sokan,
+        özenle seçilmiş donanım altyapısı. Beyni de gözü de kendi seçimimiz.
+      </p>
+
+      <div class="hw-grid">
+        <div class="hw-card">
+          <span class="tag">ANA GÖVDE</span>
+          <h3>CrowPanel Advance 7" HMI + ESP32-S3</h3>
+          <p>800×480 IPS ekran güneş altında dahi harita risk renklerini net gösterir; GT911 kapasitif dokunmatik eldivenle bile çalışır; çift çekirdekli ESP32-S3, UI, GPS ayrıştırma ve Firebase bağlantısını takılmadan paralel yürütür.</p>
+        </div>
+        <div class="hw-card">
+          <span class="tag">OPTİK GÖZ</span>
+          <h3>AS7341 — 11 Kanallı Spektral Sensör</h3>
+          <p>Klasik RGB sensörlerin aksine, 8 görünür ve NIR dahil 11 bağımsız kanalda 16-bit çözünürlükle absorbans okur; suyun içindeki nitratın optik parmak izini çıkarır.</p>
+        </div>
+        <div class="hw-card">
+          <span class="tag">KONUM</span>
+          <h3>Ublox NEO-8M GPS Modülü</h3>
+          <p>Her ölçümü hassas enlem/boylam ile mühürler; NitraCheck'i basit bir ölçüm aletinden Türkiye'nin su haritasına veri sağlayan bir coğrafi istasyona dönüştürür.</p>
+        </div>
+        <div class="hw-card">
+          <span class="tag">ÇEVRE</span>
+          <h3>SHT40 Sıcaklık &amp; Nem Sensörü</h3>
+          <p>Ultra düşük güç tüketimiyle sistemin enerji bütçesini korurken, çevresel koşullara göre ana ölçüm sonuçlarını anlık kalibre eder.</p>
+        </div>
+        <div class="hw-card">
+          <span class="tag">HABERLEŞME</span>
+          <h3>Stemma QT 5-Port I2C Hub</h3>
+          <p>Sensörler, HMI ekran ve diğer donanımlar arasındaki veri trafiğini yöneten iletişim omurgası; sinyal bütünlüğünü koruyup veri çakışmalarını sıfıra indirir.</p>
+        </div>
+        <div class="hw-card">
+          <span class="tag">KANIT</span>
+          <h3>58mm Termal Fiş Yazıcı (EM205)</h3>
+          <p>Ölçüm sonucunu, konum bilgisini ve zaman damgasını akıllı telefona gerek duymadan sahada anında fiş olarak basar.</p>
+        </div>
+      </div>
+
+      <p class="eyebrow" style="margin-top:52px">ÇOK KATMANLI İZOLE GÜÇ MİMARİSİ</p>
+      <h2>Tam otonom, şebekeden bağımsız.</h2>
+      <p class="section-copy">
+        Güneş paneli ile kendi enerjisini üreten NitraCheck; MPPT şarj kontrolü, 4S BMS ve
+        yüklere özel izole regülatör katmanlarıyla sahada aylarca bakım gerektirmeden çalışacak
+        şekilde tasarlandı.
+      </p>
+      <div class="power-strip">
+        <div><b>Güneş Paneli</b><span>Tam otonomi ve sıfır karbon ayak izi için sürekli enerji hasadı.</span></div>
+        <div><b>MPPT Şarj Kontrolü</b><span>Bulutlu havada dahi panelden alınabilecek maksimum gücü bataryaya aktarır.</span></div>
+        <div><b>4S BMS (16.8V)</b><span>Termal yazıcı ve HMI ekranın anlık yüksek akım ihtiyacını güvenle karşılar.</span></div>
+        <div><b>İzole Regülatör Katmanları</b><span>Yazıcı, ekran ve ana işlemci hatları birbirinden ayrılarak voltaj çökmesi engellenir.</span></div>
+      </div>
+    </section>
+
     <section id="sistem" class="content-section system-section">
       <div>
         <p class="eyebrow">CİHAZ AĞI</p>
@@ -128,16 +259,33 @@
         <div><span>DURUM</span><strong id="sampleStatus">GÜVENLİ</strong></div>
       </div>
     </section>
+
+    <section id="ekip" class="team-section">
+      <p class="eyebrow">TÜRK ÖĞRENCİLERİ TARAFINDAN GELİŞTİRİLDİ</p>
+      <h2>Su Senatörleri — TEKNOFEST 2026</h2>
+      <p class="section-copy">Tamamen yerli yazılım, yerli donanım, milli teknoloji.</p>
+
+      <div class="logo-wall">
+        <img src="assets/teknofest-logo.png" alt="TEKNOFEST">
+        <img class="tt-badge" src="assets/tt-logo.png" alt="Türkiye Teknoloji Takımı">
+        <img class="mth-badge" src="assets/milli-teknoloji-hamlesi.png" alt="Milli Teknoloji Hamlesi">
+        <img src="assets/su-senatorleri-badge.png" alt="Su Senatörleri">
+      </div>
+      <p class="team-tagline">NitraCheck, <strong>Su Senatörleri</strong> takımı tarafından TEKNOFEST kapsamında yerli ve milli imkanlarla geliştirilmektedir.</p>
+    </section>
   </main>
 
   <footer>
     <strong>NITRACHECK</strong>
-    <span>NDSC-8 · AS7341 · Firebase Realtime Database</span>
+    <span>NDSC-8 · AS7341 · Firebase Realtime Database · Su Senatörleri / TEKNOFEST</span>
   </footer>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
           integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
           crossorigin=""></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
   <script type="module" src="app.js"></script>
 </body>
 </html>
