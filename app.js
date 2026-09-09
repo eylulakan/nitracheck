@@ -25,6 +25,10 @@ const TURKEY_CENTER = [39.0, 35.2];
 const TURKEY_ZOOM = 5.6;
 const SAFE_LIMIT = 50;
 const HIGH_LIMIT = 100;
+// Eski firmware bu iki metriği (NDSC-8 skoru, optik kalite) hiç göndermiyordu.
+// Boş "—" yerine sebebini açıklayan bir metin gösteriyoruz ki kart
+// bozuk/eksik değil, bilinçli bir durum gibi görünsün.
+const NOT_RECORDED = "Bu ölçümde kaydedilmedi (eski firmware)";
 
 const map = L.map("map", {
   zoomControl: true,
@@ -109,10 +113,10 @@ function normalizeReading(raw, id = "") {
   if (Math.abs(lat) > 90 || Math.abs(lng) > 180) return null;
 
   const device = stringFrom(raw, ["deviceId", "deviceID", "device", "cihazId", "id"], id || "NITRACHECK");
-  const city = stringFrom(raw, ["city", "il", "locationName", "address"], "—");
+  const city = stringFrom(raw, ["adres", "city", "il", "locationName", "address"], "—");
   const timestamp = raw.timestamp ?? raw.time ?? raw.createdAt ?? raw.tarih ?? Date.now();
   const score = numberFrom(raw, ["ndsc8", "NDSC8", "ndscScore", "score"]);
-  const opticalQuality = stringFrom(raw, ["opticalQuality", "quality", "optikKalite"], "—");
+  const opticalQuality = stringFrom(raw, ["opticalQuality", "quality", "optikKalite"], NOT_RECORDED);
 
   return { id, lat, lng, ppm, device, city, timestamp, score, opticalQuality, raw };
 }
@@ -216,7 +220,7 @@ function showLatest(r) {
         <div class="detail"><span>CİHAZ</span><strong>${escapeHtml(r.device)}</strong></div>
         <div class="detail"><span>KONUM</span><strong>${escapeHtml(r.city)}</strong></div>
         <div class="detail"><span>GPS</span><strong>${r.lat.toFixed(5)}, ${r.lng.toFixed(5)}</strong></div>
-        <div class="detail"><span>NDSC-8 SKORU</span><strong>${r.score === null ? "—" : r.score.toFixed(4)}</strong></div>
+        <div class="detail"><span>NDSC-8 SKORU</span><strong>${r.score === null ? NOT_RECORDED : r.score.toFixed(4)}</strong></div>
         <div class="detail"><span>OPTİK KALİTE</span><strong>${escapeHtml(r.opticalQuality)}</strong></div>
       </div>
     </div>`;
