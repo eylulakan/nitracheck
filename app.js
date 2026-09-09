@@ -115,7 +115,7 @@ function normalizeReading(raw, id = "") {
   const device = stringFrom(raw, ["deviceId", "deviceID", "device", "cihazId", "id"], id || "NITRACHECK");
   const city = stringFrom(raw, ["adres", "city", "il", "locationName", "address"], "—");
   const timestamp = raw.timestamp ?? raw.time ?? raw.createdAt ?? raw.tarih ?? Date.now();
-  const score = numberFrom(raw, ["ndsc8", "NDSC8", "ndscScore", "score"]);
+  const score = numberFrom(raw, ["ndscSkoru", "ndsc8", "NDSC8", "ndscScore", "score"]);
   const opticalQuality = stringFrom(raw, ["opticalQuality", "quality", "optikKalite"], NOT_RECORDED);
 
   return { id, lat, lng, ppm, device, city, timestamp, score, opticalQuality, raw };
