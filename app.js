@@ -113,12 +113,16 @@ function normalizeReading(raw, id = "") {
   if (Math.abs(lat) > 90 || Math.abs(lng) > 180) return null;
 
   const device = stringFrom(raw, ["deviceId", "deviceID", "device", "cihazId", "id"], id || "NITRACHECK");
-  const city = stringFrom(raw, ["adres", "city", "il", "locationName", "address"], "—");
+  const hasAddressField = ["adres", "city", "il", "locationName", "address"]
+    .some(k => raw?.[k] !== undefined && raw?.[k] !== null && String(raw[k]).trim() !== "");
+  const city = hasAddressField
+    ? stringFrom(raw, ["adres", "city", "il", "locationName", "address"], "—")
+    : "Adres aranıyor…";
   const timestamp = raw.timestamp ?? raw.time ?? raw.createdAt ?? raw.tarih ?? Date.now();
   const score = numberFrom(raw, ["ndscSkoru", "ndsc8", "NDSC8", "ndscScore", "score"]);
   const opticalQuality = stringFrom(raw, ["opticalQuality", "quality", "optikKalite"], NOT_RECORDED);
 
-  return { id, lat, lng, ppm, device, city, timestamp, score, opticalQuality, raw };
+  return { id, lat, lng, ppm, device, city, timestamp, score, opticalQuality, needsGeocode: !hasAddressField, raw };
 }
 
 function statusFor(ppm) {
@@ -167,6 +171,87 @@ function escapeHtml(value) {
   }[c]));
 }
 
+// ─── İSTEMCİ TARAFI REVERSE GEOCODING ───────────────────────────────
+// Firmware bir kaydın "adres" alanını hiç göndermemişse (eski/güncellenmemiş
+// cihaz), sadece elimizdeki lat/lng ile OpenStreetMap Nominatim üzerinden
+// açık adres çözülüp haritaya/panel'e sonradan eklenir. Nominatim'in ücretsiz
+// kullanım kuralı gereği istekler art arda değil, saniyede en fazla 1 tane
+// olacak şekilde sıraya alınır; sonuçlar tarayıcıda kalıcı olarak
+// (localStorage) önbelleğe alınır ki aynı nokta için tekrar tekrar
+// sorgulanmasın.
+const GEOCODE_CACHE_KEY = "nitracheck_geocode_cache_v1";
+const geocodeCache = (() => {
+  try { return JSON.parse(localStorage.getItem(GEOCODE_CACHE_KEY)) || {}; }
+  catch { return {}; }
+})();
+function saveGeocodeCache() {
+  try { localStorage.setItem(GEOCODE_CACHE_KEY, JSON.stringify(geocodeCache)); }
+  catch { /* localStorage dolu/engelli olabilir, sessizce yut */ }
+}
+function geocodeKey(lat, lng) {
+  return `${lat.toFixed(4)},${lng.toFixed(4)}`;
+}
+
+const geocodeQueue = [];
+const geocodeQueuedKeys = new Set();
+let geocodeQueueRunning = false;
+
+function queueGeocode(r) {
+  const key = geocodeKey(r.lat, r.lng);
+  if (geocodeCache[key]) {
+    applyResolvedAddress(key, geocodeCache[key]);
+    return;
+  }
+  if (geocodeQueuedKeys.has(key)) return; // zaten sırada
+  geocodeQueuedKeys.add(key);
+  geocodeQueue.push({ key, lat: r.lat, lng: r.lng });
+  runGeocodeQueue();
+}
+
+async function runGeocodeQueue() {
+  if (geocodeQueueRunning) return;
+  geocodeQueueRunning = true;
+  while (geocodeQueue.length > 0) {
+    const job = geocodeQueue.shift();
+    try {
+      const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${job.lat}&lon=${job.lng}&zoom=16&accept-language=tr`;
+      const res = await fetch(url, { headers: { "Accept": "application/json" } });
+      if (res.ok) {
+        const data = await res.json();
+        const address = data?.display_name
+          ? String(data.display_name).split(",").slice(0, 3).join(",").trim()
+          : null;
+        if (address) {
+          geocodeCache[job.key] = address;
+          saveGeocodeCache();
+          applyResolvedAddress(job.key, address);
+        }
+      } else {
+        console.error("[NitraCheck] Nominatim hata kodu:", res.status);
+      }
+    } catch (err) {
+      console.error("[NitraCheck] Reverse geocoding hatası:", err);
+    }
+    geocodeQueuedKeys.delete(job.key);
+    // Nominatim kullanım kuralı: saniyede en fazla 1 istek.
+    if (geocodeQueue.length > 0) await new Promise(res => setTimeout(res, 1100));
+  }
+  geocodeQueueRunning = false;
+}
+
+function applyResolvedAddress(key, address) {
+  const affected = allMeasurements.filter(r => geocodeKey(r.lat, r.lng) === key);
+  affected.forEach(r => {
+    r.city = address;
+    r.needsGeocode = false;
+    const marker = markers.get(r.id);
+    if (marker) marker.setPopupContent(popupHtml(r));
+  });
+  if (affected.length && allMeasurements[0] && geocodeKey(allMeasurements[0].lat, allMeasurements[0].lng) === key) {
+    showLatest(allMeasurements[0]);
+  }
+}
+
 function updateMarker(r) {
   const s = statusFor(r.ppm);
   const icon = L.divIcon({
@@ -201,6 +286,10 @@ function render(readings) {
   clusterGroup.clearLayers();
   markers.clear();
   allMeasurements.forEach(updateMarker);
+
+  // Firmware'in adres göndermediği kayıtlar için istemci tarafı reverse
+  // geocoding kuyruğa alınır (bkz. queueGeocode).
+  allMeasurements.filter(r => r.needsGeocode).forEach(queueGeocode);
 
   const latest = allMeasurements[0];
   if (latest) showLatest(latest);
