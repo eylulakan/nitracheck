@@ -122,9 +122,9 @@ function normalizeReading(raw, id = "") {
 }
 
 function statusFor(ppm) {
-  if (ppm <= SAFE_LIMIT) return { label: "GÜVENLİ", color: "#43e27a", className: "green" };
-  if (ppm <= HIGH_LIMIT) return { label: "YÜKSEK", color: "#ffad3d", className: "orange" };
-  return { label: "ÇOK YÜKSEK", color: "#ff4d55", className: "red" };
+  if (ppm <= SAFE_LIMIT) return { label: "GÜVENLİ", color: "#48e070", className: "green" };
+  if (ppm <= HIGH_LIMIT) return { label: "YÜKSEK", color: "#ffb834", className: "orange" };
+  return { label: "ÇOK YÜKSEK", color: "#ff525c", className: "red" };
 }
 
 function toEpochMs(value) {
@@ -295,7 +295,7 @@ els.locateBtn.addEventListener("click", () => {
       const { latitude, longitude } = pos.coords;
       map.setView([latitude, longitude], 12);
       L.circleMarker([latitude, longitude], {
-        radius: 8, color: "#39e7d4", fillColor: "#39e7d4", fillOpacity: .9
+        radius: 8, color: "#4691ff", fillColor: "#4691ff", fillOpacity: .9
       }).addTo(map).bindPopup("Mevcut konumunuz").openPopup();
     },
     () => alert("Konum izni alınamadı.")

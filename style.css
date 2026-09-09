@@ -1,26 +1,29 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap');
 
 :root{
-  --bg:#071014;
-  --panel:#0c171c;
-  --panel2:#101e24;
-  --line:#203239;
-  --text:#eef7f8;
-  --muted:#91a6ab;
-  --cyan:#39e7d4;
-  --green:#43e27a;
-  --orange:#ffad3d;
-  --red:#ff4d55;
+  /* Cihazın gerçek ekranındaki (LovyanGFX UI_*) renk paleti ile birebir eşleşir */
+  --bg:#081023;
+  --panel:#101e3a;
+  --panel2:#0a152b;
+  --panel3:#182a4c;
+  --line:#26314e;
+  --text:#f5f9ff;
+  --muted:#b8bcc4;
+  --cyan:#4691ff;
+  --navy:#2355b4;
+  --green:#48e070;
+  --orange:#ffb834;
+  --red:#ff525c;
   --violet:#8a7dff;
-  --blue:#4d8cff;
-  --yellow:#e9e24a;
-  --magenta:#ff5fb0;
-  --steel-1:#3a444c;
-  --steel-2:#1b2126;
-  --steel-edge:#57636c;
+  --blue:#4691ff;
+  --yellow:#ffd700;
+  --magenta:#ff69b4;
+  --steel-1:#2c3a5c;
+  --steel-2:#0e1830;
+  --steel-edge:#3d4d74;
   --max:1500px;
   --radius:20px;
-  --shadow:0 20px 60px rgba(0,0,0,.28);
+  --shadow:0 20px 60px rgba(0,0,0,.35);
   --display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
   --body: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -29,9 +32,9 @@
 html{scroll-behavior:smooth}
 body{
   margin:0;background:
-  radial-gradient(circle at 80% 0%,rgba(57,231,212,.08),transparent 32rem),
-  radial-gradient(circle at 10% 15%,rgba(67,226,122,.05),transparent 28rem),
-  linear-gradient(180deg,#071014 0%,#081318 100%);
+  radial-gradient(circle at 80% 0%,rgba(70,145,255,.10),transparent 32rem),
+  radial-gradient(circle at 10% 15%,rgba(35,85,180,.10),transparent 28rem),
+  linear-gradient(180deg,#081023 0%,#050a1a 100%);
   color:var(--text);font-family:var(--body);
   min-width:320px;
 }
@@ -55,7 +58,7 @@ h1,h2,h3{font-family:var(--display)}
   width:42px;height:42px;flex:none;border-radius:11px;padding:5px;
   background:linear-gradient(155deg,var(--steel-1),var(--steel-2));
   border:1px solid var(--steel-edge);
-  box-shadow:0 0 10px rgba(57,231,212,.3), inset 0 1px 0 rgba(255,255,255,.08);
+  box-shadow:0 0 10px rgba(70,145,255,.35), inset 0 1px 0 rgba(255,255,255,.08);
 }
 .brand-mark img{width:100%;height:100%;object-fit:contain;display:block}
 .brand strong{display:block;letter-spacing:.06em;font-size:1.05rem;font-family:var(--display);font-weight:700}
@@ -108,36 +111,37 @@ h2{font-size:clamp(1.9rem,3.6vw,3.4rem);line-height:1.02;letter-spacing:-.02em;m
    çelik/gunmetal bezel ve altta cihazdaki gibi parlayan cyan ışık şeridi */
 .spectral{
   position:relative;
-  background:linear-gradient(165deg,#182229 0%,#0c171c 65%);
+  background:linear-gradient(165deg,#1a2440 0%,#0a152b 65%);
   border:1px solid var(--steel-edge);border-radius:var(--radius);
   padding:22px 22px 30px;box-shadow:var(--shadow), inset 0 1px 0 rgba(255,255,255,.05);
 }
 .spectral::after{
   content:"";position:absolute;left:28px;right:28px;bottom:14px;height:4px;border-radius:4px;
   background:linear-gradient(90deg,transparent,var(--cyan) 50%,transparent);
-  box-shadow:0 0 16px 2px rgba(57,231,212,.55);
+  box-shadow:0 0 16px 2px rgba(70,145,255,.6);
 }
 .spectral-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px}
 .spectral-head b{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;color:var(--text)}
 .spectral-head span{font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;color:var(--muted)}
-.spectral-bars{display:flex;align-items:flex-end;gap:8px;height:120px}
-.spectral-bars i{
-  flex:1;border-radius:6px 6px 3px 3px;display:block;
-  animation:pulse 2.6s ease-in-out infinite;
-  box-shadow:0 0 14px -2px currentColor;
+
+/* cihazın gerçek ekranındaki AS7341 Gaussian spektral grafiğinin web karşılığı:
+   dalga boyuna göre gökkuşağı dolgu + üstte beyaz kontur eğrisi */
+.spectral-graph{display:block;width:100%;height:180px;overflow:visible}
+.spectral-grid line{stroke:var(--line);stroke-width:1}
+.spectral-axis{stroke:var(--muted);stroke-width:1}
+.spectral-area{fill-opacity:.55;animation:specGlow 4s ease-in-out infinite}
+.spectral-line{
+  stroke:var(--text);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;
+  filter:drop-shadow(0 0 6px rgba(245,249,255,.35));
 }
-.spectral-bars i:nth-child(1){background:var(--violet);color:var(--violet);height:38%;animation-delay:0s}
-.spectral-bars i:nth-child(2){background:var(--blue);color:var(--blue);height:58%;animation-delay:.15s}
-.spectral-bars i:nth-child(3){background:var(--cyan);color:var(--cyan);height:74%;animation-delay:.3s}
-.spectral-bars i:nth-child(4){background:var(--green);color:var(--green);height:92%;animation-delay:.45s}
-.spectral-bars i:nth-child(5){background:var(--yellow);color:var(--yellow);height:70%;animation-delay:.6s}
-.spectral-bars i:nth-child(6){background:var(--orange);color:var(--orange);height:54%;animation-delay:.75s}
-.spectral-bars i:nth-child(7){background:var(--red);color:var(--red);height:66%;animation-delay:.9s}
-.spectral-bars i:nth-child(8){background:#c23a5a;color:#c23a5a;height:44%;animation-delay:1.05s}
-@keyframes pulse{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.82)}}
-.spectral-labels{display:flex;justify-content:space-between;margin-top:10px;font-family:var(--mono);font-size:.56rem;color:var(--muted);letter-spacing:.02em}
+.spectral-ticks line{stroke:var(--muted);stroke-width:1}
+.spectral-ticks text{
+  fill:var(--muted);font-family:var(--mono);font-size:11px;letter-spacing:.02em;
+}
+.spectral-ylabel{fill:var(--text);font-family:var(--mono);font-size:11px}
+@keyframes specGlow{0%,100%{fill-opacity:.5}50%{fill-opacity:.68}}
 .spectral-foot{margin-top:14px;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font-size:.78rem;line-height:1.55}
-@media (prefers-reduced-motion: reduce){.spectral-bars i{animation:none}}
+@media (prefers-reduced-motion: reduce){.spectral-area{animation:none}}
 
 /* ---------- map ---------- */
 .map-section{padding:30px 0 80px}
@@ -146,7 +150,7 @@ h2{font-size:clamp(1.9rem,3.6vw,3.4rem);line-height:1.02;letter-spacing:-.02em;m
   border:1px solid var(--cyan);color:var(--cyan);background:transparent;border-radius:12px;
   padding:11px 15px;cursor:pointer;font-weight:700
 }
-.outline-btn:hover{background:rgba(57,231,212,.08)}
+.outline-btn:hover{background:rgba(70,145,255,.1)}
 .map-layout{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:18px}
 .map-card{position:relative;min-height:600px;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
 #map{height:600px;width:100%;background:#dce9e7}
@@ -193,7 +197,7 @@ h2{font-size:clamp(1.9rem,3.6vw,3.4rem);line-height:1.02;letter-spacing:-.02em;m
 .feature-grid article:hover{border-color:var(--cyan);transform:translateY(-2px)}
 .feature-grid .ico{
   width:38px;height:38px;border-radius:10px;display:grid;place-items:center;
-  background:rgba(57,231,212,.1);color:var(--cyan);font-size:1.15rem;margin-bottom:16px;font-family:var(--mono)
+  background:rgba(70,145,255,.12);color:var(--cyan);font-size:1.15rem;margin-bottom:16px;font-family:var(--mono)
 }
 .feature-grid h3{font-size:1.12rem;margin:0 0 10px}
 .feature-grid p{color:var(--muted);line-height:1.65;margin:0;font-size:.92rem}
@@ -239,7 +243,7 @@ h2{font-size:clamp(1.9rem,3.6vw,3.4rem);line-height:1.02;letter-spacing:-.02em;m
 .device-frame .led-strip{
   position:absolute;left:28px;right:28px;bottom:10px;height:4px;border-radius:4px;
   background:linear-gradient(90deg,transparent,var(--cyan) 50%,transparent);
-  box-shadow:0 0 16px 2px rgba(57,231,212,.55);pointer-events:none;
+  box-shadow:0 0 16px 2px rgba(70,145,255,.6);pointer-events:none;
 }
 .device-frame .device-caption{
   position:absolute;left:28px;bottom:18px;padding:5px 10px;border-radius:999px;
@@ -277,11 +281,11 @@ footer{
   color:var(--muted);font-size:.75rem;font-family:var(--mono)
 }
 .leaflet-container{font:inherit}
-.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:#0c171c;color:#eef7f8;border:1px solid #203239}
+.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:#101e3a;color:#f5f9ff;border:1px solid #26314e}
 .leaflet-popup-content{margin:14px;min-width:220px}
 .popup-title{font-weight:700;letter-spacing:.05em;margin-bottom:6px;font-family:var(--display)}
 .popup-ppm{font-size:2rem;font-weight:700;font-family:var(--mono)}
-.popup-meta{color:#91a6ab;font-size:.78rem;line-height:1.6}
+.popup-meta{color:#b8bcc4;font-size:.78rem;line-height:1.6}
 .custom-dot{width:18px;height:18px;border-radius:50%;border:3px solid rgba(255,255,255,.9);box-shadow:0 0 0 4px rgba(0,0,0,.12),0 0 18px currentColor}
 
 @media (max-width:1000px){
