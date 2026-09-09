@@ -189,6 +189,12 @@ h2{font-size:clamp(1.9rem,3.6vw,3.4rem);line-height:1.02;letter-spacing:-.02em;m
 .badge-row{display:flex;align-items:center;gap:8px;margin-bottom:14px}
 .badge-row .dot{width:6px;height:6px;border-radius:50%;background:var(--cyan)}
 
+.section-banner{
+  margin:28px 0 0;padding:0;border-radius:var(--radius);overflow:hidden;
+  border:1px solid var(--line);box-shadow:var(--shadow);background:var(--panel2);
+}
+.section-banner img{display:block;width:100%;height:auto}
+
 .feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:30px}
 .feature-grid article{
   background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:26px;min-height:180px;
