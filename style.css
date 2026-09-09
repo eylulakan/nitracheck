@@ -14,6 +14,10 @@
   --violet:#8a7dff;
   --blue:#4d8cff;
   --yellow:#e9e24a;
+  --magenta:#ff5fb0;
+  --steel-1:#3a444c;
+  --steel-2:#1b2126;
+  --steel-edge:#57636c;
   --max:1500px;
   --radius:20px;
   --shadow:0 20px 60px rgba(0,0,0,.28);
@@ -41,8 +45,18 @@ h1,h2,h3{font-family:var(--display)}
   padding:14px clamp(16px,4vw,64px);background:rgba(7,16,20,.9);
   backdrop-filter:blur(18px);border-bottom:1px solid var(--line);
 }
+/* ince mavi->cyan metalik şerit: cihazın gövdesindeki mavi aksan çizgisinin yansıması */
+.topbar::after{
+  content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;
+  background:linear-gradient(90deg,var(--blue),var(--cyan));opacity:.75;
+}
 .brand{display:flex;align-items:center;gap:12px;margin-right:8px}
-.brand-mark{width:42px;height:42px;flex:none;filter:drop-shadow(0 0 10px rgba(57,231,212,.35))}
+.brand-mark{
+  width:42px;height:42px;flex:none;border-radius:11px;padding:5px;
+  background:linear-gradient(155deg,var(--steel-1),var(--steel-2));
+  border:1px solid var(--steel-edge);
+  box-shadow:0 0 10px rgba(57,231,212,.3), inset 0 1px 0 rgba(255,255,255,.08);
+}
 .brand-mark img{width:100%;height:100%;object-fit:contain;display:block}
 .brand strong{display:block;letter-spacing:.06em;font-size:1.05rem;font-family:var(--display);font-weight:700}
 .brand strong span{color:var(--green)}
@@ -90,9 +104,18 @@ h2{font-size:clamp(1.9rem,3.6vw,3.4rem);line-height:1.02;letter-spacing:-.02em;m
 .hero-stats span,.data-card span{color:var(--muted);font-size:.62rem;letter-spacing:.12em;font-weight:700;font-family:var(--mono)}
 
 /* spectral signature visual */
+/* cihazın kendi dokunmatik ekranını andıran çerçeve: koyu lacivert panel,
+   çelik/gunmetal bezel ve altta cihazdaki gibi parlayan cyan ışık şeridi */
 .spectral{
-  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
-  padding:22px 22px 18px;box-shadow:var(--shadow);
+  position:relative;
+  background:linear-gradient(165deg,#182229 0%,#0c171c 65%);
+  border:1px solid var(--steel-edge);border-radius:var(--radius);
+  padding:22px 22px 30px;box-shadow:var(--shadow), inset 0 1px 0 rgba(255,255,255,.05);
+}
+.spectral::after{
+  content:"";position:absolute;left:28px;right:28px;bottom:14px;height:4px;border-radius:4px;
+  background:linear-gradient(90deg,transparent,var(--cyan) 50%,transparent);
+  box-shadow:0 0 16px 2px rgba(57,231,212,.55);
 }
 .spectral-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px}
 .spectral-head b{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;color:var(--text)}
@@ -185,12 +208,44 @@ h2{font-size:clamp(1.9rem,3.6vw,3.4rem);line-height:1.02;letter-spacing:-.02em;m
 
 .hw-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:30px}
 .hw-card{
+  position:relative;overflow:hidden;
   background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:26px;
   display:flex;flex-direction:column;gap:10px
+}
+/* her donanım kartının üstünde cihazın mavi->cyan aydınlatma şeridini andıran ince çizgi */
+.hw-card::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--blue),var(--cyan));
 }
 .hw-card .tag{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;color:var(--green);font-weight:700}
 .hw-card h3{font-size:1.15rem;margin:0}
 .hw-card p{color:var(--muted);line-height:1.65;margin:0;font-size:.9rem}
+.hw-card.hw-card--device{grid-column:1 / -1;display:grid;grid-template-columns:1.1fr 1fr;gap:26px;align-items:center}
+.hw-card.hw-card--device .hw-copy{display:flex;flex-direction:column;gap:10px}
+
+/* ---------- gerçek cihaz fotoğrafı çerçevesi ---------- */
+.device-frame{
+  position:relative;border-radius:20px;padding:14px;
+  background:linear-gradient(135deg,var(--steel-1) 0%,#20262b 55%,var(--steel-2) 100%);
+  border:1px solid var(--steel-edge);
+  box-shadow:0 20px 46px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.07);
+}
+.device-frame::before{
+  content:"";position:absolute;left:0;top:14px;bottom:14px;width:6px;border-radius:4px;
+  background:linear-gradient(180deg,#7cbcff,var(--blue));
+  box-shadow:0 0 14px rgba(79,140,255,.65);
+}
+.device-frame img{display:block;width:100%;height:100%;object-fit:cover;border-radius:12px}
+.device-frame .led-strip{
+  position:absolute;left:28px;right:28px;bottom:10px;height:4px;border-radius:4px;
+  background:linear-gradient(90deg,transparent,var(--cyan) 50%,transparent);
+  box-shadow:0 0 16px 2px rgba(57,231,212,.55);pointer-events:none;
+}
+.device-frame .device-caption{
+  position:absolute;left:28px;bottom:18px;padding:5px 10px;border-radius:999px;
+  background:rgba(7,16,20,.72);border:1px solid var(--steel-edge);
+  font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;color:var(--cyan);font-weight:700
+}
 
 .power-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:26px}
 .power-strip div{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:16px}
@@ -236,6 +291,7 @@ footer{
   .feature-grid{grid-template-columns:repeat(2,1fr)}
   .steps{grid-template-columns:repeat(2,1fr)}
   .hw-grid{grid-template-columns:1fr}
+  .hw-card.hw-card--device{grid-template-columns:1fr}
   .power-strip{grid-template-columns:repeat(2,1fr)}
   .system-section{grid-template-columns:1fr}
   .partner-strip{display:none}
