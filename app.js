@@ -153,7 +153,7 @@ function popupHtml(r) {
   const s = statusFor(r.ppm);
   return `
     <div class="popup-title">${escapeHtml(r.device)}</div>
-    <div class="popup-ppm" style="color:${s.color}">${r.ppm.toFixed(1)} <small>mg/L NO₃⁻</small></div>
+    <div class="popup-ppm" style="color:${s.color}">${r.ppm.toFixed(1)} <small>ppm NO₃⁻</small></div>
     <div class="status" style="color:${s.color}">
       <span class="status-dot" style="background:${s.color}"></span>${s.label}
     </div>
@@ -301,7 +301,7 @@ function showLatest(r) {
   els.lastMeasurement.innerHTML = `
     <div class="measurement-card">
       <div class="ppm" style="color:${s.color}">${r.ppm.toFixed(1)}</div>
-      <div class="unit">mg/L NO₃⁻</div>
+      <div class="unit">ppm NO₃⁻</div>
       <div class="status" style="color:${s.color}">
         <span class="status-dot" style="background:${s.color}"></span>${s.label}
       </div>
@@ -314,7 +314,7 @@ function showLatest(r) {
       </div>
     </div>`;
   els.sampleDevice.textContent = r.device;
-  els.samplePpm.textContent = `${r.ppm.toFixed(1)} mg/L`;
+  els.samplePpm.textContent = `${r.ppm.toFixed(1)} ppm`;
   els.sampleStatus.textContent = s.label;
 }
 
