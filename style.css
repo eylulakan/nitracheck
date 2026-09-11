@@ -126,22 +126,10 @@ h2{font-size:clamp(1.9rem,3.6vw,3.4rem);line-height:1.02;letter-spacing:-.02em;m
 
 /* cihazın gerçek ekranındaki AS7341 Gaussian spektral grafiğinin web karşılığı:
    dalga boyuna göre gökkuşağı dolgu + üstte beyaz kontur eğrisi */
-.spectral-graph{display:block;width:100%;height:180px;overflow:visible}
-.spectral-grid line{stroke:var(--line);stroke-width:1}
-.spectral-axis{stroke:var(--muted);stroke-width:1}
-.spectral-area{fill-opacity:.55;animation:specGlow 4s ease-in-out infinite}
-.spectral-line{
-  stroke:var(--text);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;
-  filter:drop-shadow(0 0 6px rgba(245,249,255,.35));
-}
-.spectral-ticks line{stroke:var(--muted);stroke-width:1}
-.spectral-ticks text{
-  fill:var(--muted);font-family:var(--mono);font-size:11px;letter-spacing:.02em;
-}
-.spectral-ylabel{fill:var(--text);font-family:var(--mono);font-size:11px}
+/* cihazın gerçek fotoğrafı: ekranındaki AS7341 spektral grafiği doğal olarak görünür */
+.device-photo{display:block;width:100%;height:auto;border-radius:14px;border:1px solid var(--steel-edge);box-shadow:0 10px 30px rgba(0,0,0,.35)}
 @keyframes specGlow{0%,100%{fill-opacity:.5}50%{fill-opacity:.68}}
 .spectral-foot{margin-top:14px;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font-size:.78rem;line-height:1.55}
-@media (prefers-reduced-motion: reduce){.spectral-area{animation:none}}
 
 /* ---------- map ---------- */
 .map-section{padding:30px 0 80px}
