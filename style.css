@@ -90,7 +90,7 @@ h1,h2,h3{font-family:var(--display)}
 }
 .brand-row{display:flex;align-items:center;gap:18px;margin-bottom:24px}
 .hero-logo{display:block;width:min(360px,80%);height:auto;margin-bottom:0}
-.hero-device-thumb{display:block;height:clamp(48px,6vw,72px);width:auto}
+.hero-device-thumb{display:block;height:clamp(65px,8.1vw,97px);width:auto}
 .team-pill{
   display:inline-flex;align-items:center;gap:10px;padding:6px 14px 6px 6px;border:1px solid var(--line);
   border-radius:999px;background:var(--panel);margin-bottom:22px
